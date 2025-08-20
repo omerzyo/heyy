@@ -1083,25 +1083,63 @@ let baseHTML = `
     <title>Proxy List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* For Webkit-based browsers (Chrome, Safari and Opera) */
+      /* Hilangkan scrollbar */
       .scrollbar-hide::-webkit-scrollbar {
-          display: none;
+        display: none;
       }
-
-      /* For IE, Edge and Firefox */
       .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;  /* IE & Edge */
+        scrollbar-width: none;     /* Firefox */
       }
     </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
       tailwind.config = {
-        darkMode: 'selector',
+        darkMode: "class", // ✅ perbaikan dari "selector"
+      };
+
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+      }
+
+      function toggleOutputWindow() {
+        document.getElementById("output-window").classList.toggle("hidden");
+      }
+
+      function toggleWildcardsWindow() {
+        document.getElementById("wildcards-window").classList.toggle("hidden");
+      }
+
+      function copyToClipboardAsTarget(type) {
+        navigator.clipboard.writeText("PLACEHOLDER_" + type);
+        showNotification("Akun berhasil disalin");
+      }
+
+      function copyToClipboardAsRaw() {
+        navigator.clipboard.writeText("PLACEHOLDER_RAW");
+        showNotification("Data mentah berhasil disalin");
+      }
+
+      function registerDomain() {
+        const input = document.getElementById("new-domain-input");
+        if (!input.value) return;
+        const container = document.getElementById("container-domains");
+        const div = document.createElement("div");
+        div.textContent = input.value;
+        div.className = "p-2 bg-neutral-200 dark:bg-neutral-700 rounded-md";
+        container.appendChild(div);
+        input.value = "";
+      }
+
+      function showNotification(msg) {
+        const notif = document.getElementById("notification-badge");
+        notif.querySelector("p").textContent = msg;
+        notif.classList.remove("opacity-0");
+        setTimeout(() => notif.classList.add("opacity-0"), 2000);
       }
     </script>
   </head>
-  <body class="bg-white dark:bg-neutral-800 bg-fixed">
+  <body class="bg-slate-50 dark:bg-slate-900 bg-fixed overflow-x-hidden">
     <!-- Notification -->
     <div
       id="notification-badge"
@@ -1120,11 +1158,12 @@ let baseHTML = `
         </svg>
       </div>
       <div>
-        <div class="text-md font-bold text-blue-500">Berhasil!</div>
+        <div class="text-md font-bold text-indigo-500">Berhasil!</div>
         <p class="text-sm text-neutral-800">Akun berhasil disalin</p>
       </div>
     </div>
-    <!-- Select Country -->
+
+    <!-- Sidebar Country -->
     <div>
       <div
         class="h-full fixed top-0 w-14 bg-white dark:bg-neutral-800 border-r-2 border-neutral-800 dark:border-white z-20 overflow-y-scroll scrollbar-hide"
@@ -1134,8 +1173,9 @@ let baseHTML = `
         </div>
       </div>
     </div>
-    <!-- Main -->
-    <div id="container-header">
+
+    <!-- Header Info -->
+    <div id="container-header" class="ml-14">
       <div id="container-info" class="bg-amber-400 border-2 border-neutral-800 text-right px-5">
         <div class="flex justify-end gap-3 text-sm">
           <p id="container-info-ip">IP: 127.0.0.1</p>
@@ -1144,167 +1184,99 @@ let baseHTML = `
         </div>
       </div>
     </div>
-    <div class="container">
+
+    <!-- Main -->
+    <div class="container ml-14">
       <div
         id="container-title"
-        class="sticky bg-white dark:bg-neutral-800 border-b-2 border-neutral-800 dark:border-white z-10 py-6 w-screen"
+        class="sticky top-0 bg-white dark:bg-neutral-800 border-b-2 border-neutral-800 dark:border-white z-10 py-6 w-full"
       >
         <h1 class="text-xl text-center text-neutral-800 dark:text-white">
           PLACEHOLDER_JUDUL
         </h1>
       </div>
-      <div class="flex gap-6 pt-10 w-screen justify-center">
+      <div class="flex gap-6 pt-10 w-full justify-center">
         PLACEHOLDER_PROXY_GROUP
       </div>
 
       <!-- Pagination -->
-      <nav id="container-pagination" class="w-screen mt-8 sticky bottom-0 right-0 left-0 transition -translate-y-6 z-20">
+      <nav id="container-pagination" class="w-full mt-8 sticky bottom-0 transition -translate-y-6 z-20">
         <ul class="flex justify-center space-x-4">
           PLACEHOLDER_PAGE_BUTTON
         </ul>
       </nav>
     </div>
 
+    <!-- Window Containers -->
     <div id="container-window" class="hidden">
-      <!-- Windows -->
       <!-- Informations -->
       <div class="fixed z-20 top-0 w-full h-full bg-white dark:bg-neutral-800">
         <p id="container-window-info" class="text-center w-full h-full top-1/4 absolute dark:text-white"></p>
       </div>
+
       <!-- Output Format -->
       <div id="output-window" class="fixed z-20 top-0 right-0 w-full h-full flex justify-center items-center hidden">
         <div class="w-[75%] h-[30%] flex flex-col gap-1 p-1 text-center rounded-md">
           <div class="basis-1/6 w-full h-full rounded-md">
             <div class="flex w-full h-full gap-1 justify-between">
-              <button
-                onclick="copyToClipboardAsTarget('clash')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
-                Clash
-              </button>
-              <button
-                onclick="copyToClipboardAsTarget('sfa')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
-                SFA
-              </button>
-              <button
-                onclick="copyToClipboardAsTarget('bfr')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
-                BFR
-              </button>
+              <button onclick="copyToClipboardAsTarget('clash')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">Clash</button>
+              <button onclick="copyToClipboardAsTarget('sfa')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">SFA</button>
+              <button onclick="copyToClipboardAsTarget('bfr')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">BFR</button>
             </div>
           </div>
           <div class="basis-1/6 w-full h-full rounded-md">
             <div class="flex w-full h-full gap-1 justify-between">
-              <button
-                onclick="copyToClipboardAsTarget('v2ray')"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
-                V2Ray/Xray
-              </button>
-              <button
-                onclick="copyToClipboardAsRaw()"
-                class="basis-1/2 p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
-                Raw
-              </button>
+              <button onclick="copyToClipboardAsTarget('v2ray')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">V2Ray/Xray</button>
+              <button onclick="copyToClipboardAsRaw()" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">Raw</button>
             </div>
           </div>
           <div class="basis-1/6 w-full h-full rounded-md">
             <div class="flex w-full h-full gap-1 justify-center">
-              <button
-                onclick="toggleOutputWindow()"
-                class="basis-1/2 border-2 border-indigo-400 hover:bg-indigo-400 dark:text-white p-2 rounded-full flex justify-center items-center"
-              >
-                Close
-              </button>
+              <button onclick="toggleOutputWindow()" class="basis-1/2 border-2 border-indigo-400 hover:bg-indigo-400 dark:text-white p-2 rounded-full flex justify-center items-center">Close</button>
             </div>
           </div>
         </div>
       </div>
+
       <!-- Wildcards -->
       <div id="wildcards-window" class="fixed hidden z-20 top-0 right-0 w-full h-full flex justify-center items-center">
         <div class="w-[75%] h-[30%] flex flex-col gap-1 p-1 text-center rounded-md">
           <div class="basis-1/6 w-full h-full rounded-md">
             <div class="flex w-full h-full gap-1 justify-between">
-              <input
-                id="new-domain-input"
-                type="text"
-                placeholder="Input wildcard"
-                class="basis-11/12 w-full h-full px-6 rounded-md focus:outline-0"
-              />
-              <button
-                onclick="registerDomain()"
-                class="p-2 rounded-full bg-amber-400 flex justify-center items-center"
-              >
+              <input id="new-domain-input" type="text" placeholder="Input wildcard" class="basis-11/12 w-full h-full px-6 rounded-md focus:outline-0"/>
+              <button onclick="registerDomain()" class="p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white transition-colors flex justify-center items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z"
-                    clip-rule="evenodd"
-                  ></path>
+                  <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
                 </svg>
               </button>
             </div>
           </div>
           <div class="basis-5/6 w-full h-full rounded-md">
-            <div
-              id="container-domains"
-              class="w-full h-full rounded-md flex flex-col gap-1 overflow-scroll scrollbar-hide"
-            ></div>
+            <div id="container-domains" class="w-full h-full rounded-md flex flex-col gap-1 overflow-scroll scrollbar-hide"></div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-      <div class="fixed bottom-3 right-3 flex flex-col gap-1 z-50">
-        <a href="${DONATE_LINK}" target="_blank">
-          <button class="bg-green-500 rounded-full border-2 border-neutral-800 p-1 block">
+      <div class="fixed bottom-3 right-3 flex flex-col gap-2 z-50">
+        <a href="https://saweria.co/contoh" target="_blank">
+          <button class="bg-green-500 hover:bg-green-600 transition-colors rounded-full border-2 border-neutral-800 p-2 block text-white">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-              <path
-                d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z"
-                clip-rule="evenodd"
-              />
+              <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z"/>
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z" clip-rule="evenodd"/>
             </svg>
           </button>
         </a>
-        <button onclick="toggleWildcardsWindow()" class="bg-indigo-400 rounded-full border-2 border-neutral-800 p-1 PLACEHOLDER_API_READY">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
-            />
+        <button onclick="toggleWildcardsWindow()" class="bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full border-2 border-neutral-800 p-2 text-white PLACEHOLDER_API_READY">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"/>
           </svg>
         </button>
-        <button onclick="toggleDarkMode()" class="bg-amber-400 rounded-full border-2 border-neutral-800 p-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-            ></path>
+        <button onclick="toggleDarkMode()" class="bg-slate-600 hover:bg-slate-500 transition-colors rounded-full border-2 border-neutral-800 p-2 text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
           </svg>
         </button>
       </div>
