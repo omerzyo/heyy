@@ -1083,20 +1083,16 @@ let baseHTML = `
     <title>Proxy List</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Hilangkan scrollbar */
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
       .scrollbar-hide {
-        -ms-overflow-style: none;  /* IE & Edge */
-        scrollbar-width: none;     /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
     <script>
-      tailwind.config = {
-        darkMode: "class", // ✅ perbaikan dari "selector"
-      };
+      tailwind.config = { darkMode: "class" };
 
       function toggleDarkMode() {
         document.documentElement.classList.toggle("dark");
@@ -1126,7 +1122,7 @@ let baseHTML = `
         const container = document.getElementById("container-domains");
         const div = document.createElement("div");
         div.textContent = input.value;
-        div.className = "p-2 bg-neutral-200 dark:bg-neutral-700 rounded-md";
+        div.className = "p-2 bg-slate-200 dark:bg-slate-700 rounded-md";
         container.appendChild(div);
         input.value = "";
       }
@@ -1139,34 +1135,22 @@ let baseHTML = `
       }
     </script>
   </head>
-  <body class="bg-slate-50 dark:bg-slate-900 bg-fixed overflow-x-hidden">
+  <body class="bg-slate-50 dark:bg-slate-900 overflow-x-hidden">
     <!-- Notification -->
     <div
       id="notification-badge"
-      class="fixed z-50 opacity-0 transition-opacity ease-in-out duration-300 mt-9 mr-6 right-0 p-3 max-w-sm bg-white rounded-xl border border-2 border-neutral-800 flex items-center gap-x-4"
+      class="fixed z-50 opacity-0 transition-opacity ease-in-out duration-300 mt-9 mr-6 right-0 p-3 max-w-sm bg-white dark:bg-slate-800 rounded-xl border border-slate-300 dark:border-slate-700 shadow-md flex items-center gap-x-4"
     >
-      <div class="shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#171717" class="size-6">
-          <path
-            d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </div>
       <div>
         <div class="text-md font-bold text-indigo-500">Berhasil!</div>
-        <p class="text-sm text-neutral-800">Akun berhasil disalin</p>
+        <p class="text-sm text-slate-700 dark:text-slate-200">Akun berhasil disalin</p>
       </div>
     </div>
 
-    <!-- Sidebar Country -->
+    <!-- Sidebar -->
     <div>
       <div
-        class="h-full fixed top-0 w-14 bg-white dark:bg-neutral-800 border-r-2 border-neutral-800 dark:border-white z-20 overflow-y-scroll scrollbar-hide"
+        class="h-full fixed top-0 w-14 bg-white dark:bg-slate-800 border-r border-slate-300 dark:border-slate-700 z-20 overflow-y-scroll scrollbar-hide"
       >
         <div class="text-2xl flex flex-col items-center h-full gap-2">
           PLACEHOLDER_BENDERA_NEGARA
@@ -1176,8 +1160,8 @@ let baseHTML = `
 
     <!-- Header Info -->
     <div id="container-header" class="ml-14">
-      <div id="container-info" class="bg-amber-400 border-2 border-neutral-800 text-right px-5">
-        <div class="flex justify-end gap-3 text-sm">
+      <div id="container-info" class="bg-slate-100 dark:bg-slate-800 border-b border-slate-300 dark:border-slate-700 text-right px-5">
+        <div class="flex justify-end gap-3 text-sm text-slate-700 dark:text-slate-200">
           <p id="container-info-ip">IP: 127.0.0.1</p>
           <p id="container-info-country">Country: Indonesia</p>
           <p id="container-info-isp">ISP: Localhost</p>
@@ -1189,9 +1173,9 @@ let baseHTML = `
     <div class="container ml-14">
       <div
         id="container-title"
-        class="sticky top-0 bg-white dark:bg-neutral-800 border-b-2 border-neutral-800 dark:border-white z-10 py-6 w-full"
+        class="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-300 dark:border-slate-700 z-10 py-6 w-full shadow-sm"
       >
-        <h1 class="text-xl text-center text-neutral-800 dark:text-white">
+        <h1 class="text-xl text-center text-slate-800 dark:text-white font-semibold">
           PLACEHOLDER_JUDUL
         </h1>
       </div>
@@ -1207,53 +1191,38 @@ let baseHTML = `
       </nav>
     </div>
 
-    <!-- Window Containers -->
+    <!-- Popup Windows -->
     <div id="container-window" class="hidden">
       <!-- Informations -->
-      <div class="fixed z-20 top-0 w-full h-full bg-white dark:bg-neutral-800">
+      <div class="fixed z-20 top-0 w-full h-full bg-white dark:bg-slate-800">
         <p id="container-window-info" class="text-center w-full h-full top-1/4 absolute dark:text-white"></p>
       </div>
 
       <!-- Output Format -->
       <div id="output-window" class="fixed z-20 top-0 right-0 w-full h-full flex justify-center items-center hidden">
-        <div class="w-[75%] h-[30%] flex flex-col gap-1 p-1 text-center rounded-md">
-          <div class="basis-1/6 w-full h-full rounded-md">
-            <div class="flex w-full h-full gap-1 justify-between">
-              <button onclick="copyToClipboardAsTarget('clash')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">Clash</button>
-              <button onclick="copyToClipboardAsTarget('sfa')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">SFA</button>
-              <button onclick="copyToClipboardAsTarget('bfr')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">BFR</button>
-            </div>
+        <div class="w-[75%] max-w-lg bg-white dark:bg-slate-800 shadow-lg rounded-xl p-6 flex flex-col gap-4">
+          <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Copy Output</h2>
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="copyToClipboardAsTarget('clash')" class="p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium transition">Clash</button>
+            <button onclick="copyToClipboardAsTarget('sfa')" class="p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium transition">SFA</button>
+            <button onclick="copyToClipboardAsTarget('bfr')" class="p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium transition">BFR</button>
+            <button onclick="copyToClipboardAsTarget('v2ray')" class="p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium transition">V2Ray/Xray</button>
+            <button onclick="copyToClipboardAsRaw()" class="col-span-2 p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-medium transition">Raw</button>
           </div>
-          <div class="basis-1/6 w-full h-full rounded-md">
-            <div class="flex w-full h-full gap-1 justify-between">
-              <button onclick="copyToClipboardAsTarget('v2ray')" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">V2Ray/Xray</button>
-              <button onclick="copyToClipboardAsRaw()" class="basis-1/2 p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-colors flex justify-center items-center">Raw</button>
-            </div>
-          </div>
-          <div class="basis-1/6 w-full h-full rounded-md">
-            <div class="flex w-full h-full gap-1 justify-center">
-              <button onclick="toggleOutputWindow()" class="basis-1/2 border-2 border-indigo-400 hover:bg-indigo-400 dark:text-white p-2 rounded-full flex justify-center items-center">Close</button>
-            </div>
-          </div>
+          <button onclick="toggleOutputWindow()" class="mt-4 border border-indigo-400 hover:bg-indigo-400 hover:text-white text-indigo-600 dark:text-white p-2 rounded-lg transition">Close</button>
         </div>
       </div>
 
       <!-- Wildcards -->
       <div id="wildcards-window" class="fixed hidden z-20 top-0 right-0 w-full h-full flex justify-center items-center">
-        <div class="w-[75%] h-[30%] flex flex-col gap-1 p-1 text-center rounded-md">
-          <div class="basis-1/6 w-full h-full rounded-md">
-            <div class="flex w-full h-full gap-1 justify-between">
-              <input id="new-domain-input" type="text" placeholder="Input wildcard" class="basis-11/12 w-full h-full px-6 rounded-md focus:outline-0"/>
-              <button onclick="registerDomain()" class="p-2 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white transition-colors flex justify-center items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                  <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1 0 1.06l-3.75 3.75a.75.75 0 1 1-1.06-1.06l2.47-2.47H3a.75.75 0 0 1 0-1.5h16.19l-2.47-2.47a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path>
-                </svg>
-              </button>
-            </div>
+        <div class="w-[75%] max-w-lg bg-white dark:bg-slate-800 shadow-lg rounded-xl p-6 flex flex-col gap-4">
+          <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Wildcards</h2>
+          <div class="flex gap-2">
+            <input id="new-domain-input" type="text" placeholder="Input wildcard" class="flex-1 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-700 focus:outline-none text-slate-800 dark:text-white"/>
+            <button onclick="registerDomain()" class="p-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition">Add</button>
           </div>
-          <div class="basis-5/6 w-full h-full rounded-md">
-            <div id="container-domains" class="w-full h-full rounded-md flex flex-col gap-1 overflow-scroll scrollbar-hide"></div>
-          </div>
+          <div id="container-domains" class="w-full h-40 rounded-md flex flex-col gap-1 overflow-scroll scrollbar-hide bg-slate-50 dark:bg-slate-900 p-2 text-sm text-slate-700 dark:text-slate-200"></div>
+          <button onclick="toggleWildcardsWindow()" class="mt-2 border border-indigo-400 hover:bg-indigo-400 hover:text-white text-indigo-600 dark:text-white p-2 rounded-lg transition">Close</button>
         </div>
       </div>
     </div>
@@ -1262,23 +1231,10 @@ let baseHTML = `
     <footer>
       <div class="fixed bottom-3 right-3 flex flex-col gap-2 z-50">
         <a href="https://saweria.co/contoh" target="_blank">
-          <button class="bg-green-500 hover:bg-green-600 transition-colors rounded-full border-2 border-neutral-800 p-2 block text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-              <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z"/>
-              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z" clip-rule="evenodd"/>
-            </svg>
-          </button>
+          <button class="bg-green-500 hover:bg-green-600 transition-colors rounded-full p-2 block text-white shadow">💰</button>
         </a>
-        <button onclick="toggleWildcardsWindow()" class="bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full border-2 border-neutral-800 p-2 text-white PLACEHOLDER_API_READY">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"/>
-          </svg>
-        </button>
-        <button onclick="toggleDarkMode()" class="bg-slate-600 hover:bg-slate-500 transition-colors rounded-full border-2 border-neutral-800 p-2 text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/>
-          </svg>
-        </button>
+        <button onclick="toggleWildcardsWindow()" class="bg-indigo-500 hover:bg-indigo-600 transition-colors rounded-full p-2 text-white shadow">✨</button>
+        <button onclick="toggleDarkMode()" class="bg-slate-600 hover:bg-slate-500 transition-colors rounded-full p-2 text-white shadow">☀️</button>
       </div>
     </footer>
 
